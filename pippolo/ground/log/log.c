@@ -16,6 +16,14 @@
      along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "log.h"
+char log_description[][16] = {
+    "silent",
+    "talking",
+    "standard",
+    "debugging",
+    "deep debugging",
+    "communications"
+};
 pthread_mutex_t mutex_log;
 enum enum_log_level pippolo_log_level = ELOG_TALKING;
 void p_log_clean (void) {

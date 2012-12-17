@@ -42,8 +42,10 @@ enum enum_log_level {
     ELOG_STANDARD,
     ELOG_DEBUGGING,
     ELOG_DEEP_DEBUGGING,
-    ELOG_COMMUNICATIONS
+    ELOG_COMMUNICATIONS,
+    ELOG_NULL
 };
+extern char log_description[][16];
 extern pthread_mutex_t mutex_log;
 extern enum enum_log_level pippolo_log_level;
 void p_log_clean (void);

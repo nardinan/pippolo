@@ -24,16 +24,17 @@ int main (int argc, char *argv[]) {
     if (argc == 2) {
         p_memory_clean();
         p_log_clean();
+        pippolo_log_level = ELOG_NO; /* no output (after startup)! This must be a deamon process */
         p_node_clean();
         p_data_clean();
         if ((stream = fopen(argv[1], "r"))) {
             p_node_setup(stream);
             fclose(stream);
-            pippolo_log_level = ELOG_NO; /* no output (after startup)! This must be a deamon process */
             while (pippolo_true)
                 p_wait(pippolo_main_wait_sec, pippolo_main_wait_usec);
         } else
             pippolo_log(ELOG_TALKING, "what ... sorry master, you give me an unreadable file (or it not exists)");
     } else
-        pippolo_log(ELOG_TALKING, "please give me a configuration file, master");    return 0;
+        pippolo_log(ELOG_TALKING, "please give me a configuration file, master");
+    return 0;
 }

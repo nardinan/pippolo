@@ -88,7 +88,7 @@ int p_node_setup (FILE *stream) {
     /* end */
     if (p_string_len(server.address) > 0) {
         if (p_string_len(server.token) == pippolo_token) {
-            pippolo_log(ELOG_TALKING, "hello, I'm Pippolo %s (version %s) and I can't wait to meet new friends!", pippolo_safe_token(server.token), pippolo_version);
+            pippolo_log(ELOG_TALKING, "hello, I'm Pippolo %s (version %s|log level %s) and I can't wait to meet new friends!", pippolo_safe_token(server.token), pippolo_version, log_description[pippolo_log_level]);
             p_server_check_start();
             p_node_check_start();
         } else {
