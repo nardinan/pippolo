@@ -55,43 +55,59 @@ int p_node_pippolo_add (const char *address, unsigned short port) {
 
 int p_node_action (const char *ID, enum enum_data_action action, struct str_record *records, unsigned int ttl, p_hook hooker) {
     int result = pippolo_false;
-    struct str_node *singleton;
     struct str_parameter *parameter;
     pthread_t link;
     pthread_attr_t attributes;
-    singleton = pippolo_neighbours;
-    while (singleton) {
-        if (pippolo_trylock(singleton->connection.mutex) == 0) {
-            if ((parameter = (struct str_parameter *) pippolo_malloc(sizeof(str_parameter)))) {
-                parameter->ID = NULL;
-                pippolo_append(parameter->ID, ID);
-                if ((parameter->records = _p_node_action_convert(records))) {
-                    parameter->hooker = hooker;
-                    parameter->node = singleton;
-                    parameter->ttl = ttl;
-                    pthread_attr_init(&attributes);
-                    switch (action) {
-                        case EDATA_ACTIONS_ADD:
-                            parameter->action = 'A';
-                            break;
-                        case EDATA_ACTIONS_GET:
-                            parameter->action = 'G';
-                            break;
-                        case EDATA_ACTIONS_DELETE:
-                            parameter->action = 'D';
-                            break;
-                    }
-                    if (pthread_create(&link, &attributes, &_p_node_action_build, (void *)parameter) == 0) {
-                        pthread_detach(link);
-                        result = pippolo_true;
-                    }
-                }
+    if ((parameter = (struct str_parameter *) pippolo_malloc(sizeof(str_parameter)))) {
+        parameter->ID = NULL;
+        pippolo_append(parameter->ID, ID);
+        if ((parameter->records = _p_node_action_convert(records))) {
+            parameter->hooker = hooker;
+            parameter->ttl = ttl;
+            switch (action) {
+                case EDATA_ACTIONS_ADD:
+                    parameter->action = 'A';
+                    break;
+                case EDATA_ACTIONS_GET:
+                    parameter->action = 'G';
+                    break;
+                case EDATA_ACTIONS_DELETE:
+                    parameter->action = 'D';
+                    break;
             }
-            break;
+            pthread_attr_init(&attributes);
+            if (pthread_create(&link, &attributes, &_p_node_action, (void *)parameter) == 0) {
+                pthread_detach(link);
+                result = pippolo_true;
+            }
         }
-        singleton = singleton->next;
     }
     return result;
+}
+
+void *_p_node_action (void *parameter) {
+    int result = pippolo_false;
+    struct str_parameter *input = (struct str_parameter *)parameter;
+    struct str_node *singleton;
+    pthread_t link;
+    pthread_attr_t attributes;
+    while (!result) {
+        singleton = pippolo_neighbours;
+        while ((!result) && (singleton)) {
+            if (pippolo_trylock(singleton->connection.mutex) == 0) {
+                input->node = singleton;
+                pthread_attr_init(&attributes);
+                if (pthread_create(&link, &attributes, &_p_node_action_build, (void *)input) == 0) {
+                    pthread_detach(link);
+                    result = pippolo_true;
+                }
+            }
+            singleton = singleton->next;
+        }
+        p_wait(pippolo_default_retry_sec, pippolo_default_retry_usec);
+    }
+    pthread_exit(NULL);
+    return NULL;
 }
 
 char *_p_node_action_convert (struct str_record *records) {

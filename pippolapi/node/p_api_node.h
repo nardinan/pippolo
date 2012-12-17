@@ -24,6 +24,8 @@
 #define pippolo_token 8
 #define pippolo_default_timeout_sec 5
 #define pippolo_default_timeout_usec 0
+#define pippolo_default_retry_sec 0
+#define pippolo_default_retry_usec 5000
 #define pippolo_default_size 1024
 #define pippolo_xml_node "node"
 #define pippolo_xml_key_token "token"
@@ -72,6 +74,7 @@ int p_node_pippolo_init (const char *nomenclature);
 void p_node_pippolo_quit (void);
 int p_node_pippolo_add (const char *address, unsigned short port);
 int p_node_action (const char *ID, enum enum_data_action action, struct str_record *records, unsigned int ttl, p_hook hooker);
+void *_p_node_action (void *parameter);
 char *_p_node_action_convert (struct str_record *records);
 void *_p_node_action_build (void *parameter);
 void *_p_node_action_run (struct str_parameter *input, const char *request, const char *token);
