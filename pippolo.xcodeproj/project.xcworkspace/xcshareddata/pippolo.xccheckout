@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>559201A7-5BD7-4421-879B-A3C167AC260A</string>
+	<key>IDESourceControlProjectName</key>
+	<string>pippolo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>4763BC01-F2EE-4897-9ED2-64891506030F</key>
+		<string>https://github.com/nardinan/pippolo.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>pippolo.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>4763BC01-F2EE-4897-9ED2-64891506030F</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/nardinan/pippolo.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>4763BC01-F2EE-4897-9ED2-64891506030F</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>4763BC01-F2EE-4897-9ED2-64891506030F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>pippolo</string>
+		</dict>
+	</array>
+</dict>
+</plist>

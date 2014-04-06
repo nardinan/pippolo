@@ -1,20 +1,20 @@
 /*
-     Pippolo - a nosql distributed database.
-     Copyright (C) 2012 Andrea Nardinocchi (nardinocchi@psychogames.net)
-     
-     This program is free software: you can redistribute it and/or modify
-     it under the terms of the GNU General Public License as published by
-     the Free Software Foundation, either version 3 of the License, or
-     (at your option) any later version.
-     
-     This program is distributed in the hope that it will be useful,
-     but WITHOUT ANY WARRANTY; without even the implied warranty of
-     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
-     
-     You should have received a copy of the GNU General Public License
-     along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+   Pippolo - a nosql distributed database.
+   Copyright (C) 2012 Andrea Nardinocchi (nardinocchi@psychogames.net)
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   */
 #ifndef pippolo_data_h
 #define pippolo_data_h
 #include <ctype.h>
@@ -36,52 +36,52 @@
 #define pippolo_xml_key_key "key"
 #define pippolo_xml_value_true "true"
 #define pippolo_key_append_head(rt,sn)\
-    (((!(rt))||((sn)->primary.value)||((!(rt)->primary.value)&&(p_string_case_cmp((sn)->key,(rt)->key)<0))))
+	(((!(rt))||((sn)->primary.value)||((!(rt)->primary.value)&&(p_string_case_cmp((sn)->key,(rt)->key)<0))))
 enum enum_data_action {
-    EDATA_ACTIONS_ADD,
-    EDATA_ACTIONS_DELETE,
-    EDATA_ACTIONS_GET,
-    EDATA_ACTIONS_RESPONSE,
-    EDATA_ACTIONS_NULL
+	EDATA_ACTIONS_ADD,
+	EDATA_ACTIONS_DELETE,
+	EDATA_ACTIONS_GET,
+	EDATA_ACTIONS_RESPONSE,
+	EDATA_ACTIONS_NULL
 };
 enum enum_hook_action {
-    EHOOK_ACTIONS_FORWARD = 0,
-    EHOOK_ACTIONS_REPLY,
-    EHOOK_ACTIONS_NULL
+	EHOOK_ACTIONS_FORWARD = 0,
+	EHOOK_ACTIONS_REPLY,
+	EHOOK_ACTIONS_NULL
 };
 typedef struct str_key {
-    char key[(pippolo_key+1)], *value;
-    struct pippolo_bool primary;
-    struct str_key *next;
+	char key[(pippolo_key+1)], *value;
+	struct pippolo_bool primary;
+	struct str_key *next;
 } str_key;
 typedef struct str_record {
-    time_t time;
-    int hash;
-    struct str_key *keys;
-    struct str_record *next;
+	time_t time;
+	int hash;
+	struct str_key *keys;
+	struct str_record *next;
 } str_record;
 typedef struct str_level {
-    pthread_mutex_t mutex;
-    char key[(pippolo_key+1)];
-    struct str_record *values;
-    struct str_level *childrens, *next;
+	pthread_mutex_t mutex;
+	char key[(pippolo_key+1)];
+	struct str_record *values;
+	struct str_level *childrens, *next;
 } str_level;
 typedef struct str_primary {
-    char *value;
-    struct str_level *level;
+	char *value;
+	struct str_level *level;
 } str_primary;
 typedef struct str_action {
-    pthread_mutex_t mutex;
-    time_t live, last;
-    unsigned int owner, hooks[EHOOK_ACTIONS_NULL];
-    char token[(pippolo_token+1)];
-    enum enum_data_action kind;
-    struct {
-        struct pippolo_bool hash[pippolo_hash_elements];
-    } range, covered;
-    struct pippolo_bool terminated, duplicated, executed[pippolo_max_neighbours], completed[pippolo_max_neighbours];
-    struct str_xml_node *original, *records, *forward, *reply;
-    struct str_action *next;
+	pthread_mutex_t mutex;
+	time_t live, last;
+	unsigned int owner, hooks[EHOOK_ACTIONS_NULL];
+	char token[(pippolo_token+1)];
+	enum enum_data_action kind;
+	struct {
+		struct pippolo_bool hash[pippolo_hash_elements];
+	} range, covered;
+	struct pippolo_bool terminated, duplicated, executed[pippolo_max_neighbours], completed[pippolo_max_neighbours];
+	struct str_xml_node *original, *records, *forward, *reply;
+	struct str_action *next;
 } str_action;
 extern pthread_mutex_t mutex_actions;
 extern struct str_action *actions;
